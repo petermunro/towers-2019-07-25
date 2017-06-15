@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import './App.css';
 import Column from './Column';
-import { INCREASE, DECREASE } from './redux/actionTypes';
+import { INCREASE, DECREASE, SET_HEIGHT } from './redux/actionTypes';
 
 
 class App extends Component {
@@ -27,6 +27,10 @@ class App extends Component {
   handleDelete = () => {
     console.log(`delete`);
     this.props.store.dispatch({ type: DECREASE });
+  }
+
+  handleSetHeight = newHeight => {
+    this.props.store.dispatch({type: SET_HEIGHT, newHeight});
   }
 
 }
