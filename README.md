@@ -4,7 +4,7 @@ To use:
 
 ```
 npm install
-nm start
+npm start
 ```
 
 
