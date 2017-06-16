@@ -3,9 +3,10 @@ import ReactDOM from "react-dom";
 import App from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import "./index.css";
-import { createStore } from "redux";
+import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';
 import { INCREASE, DECREASE, SET_HEIGHT, DELETE_COLUMN, ADD_COLUMN } from "./redux/actions";
+import timingMiddleware from './redux/timingMiddleware';
 
 const columnHeightLimit = 12;
 const defaultHeight = 7;
@@ -79,9 +80,18 @@ const myReducer = (state = initialState, action) => {
   }
 };
 
+const middleware = [
+  timingMiddleware,
+];
+
+const composeEnhancers = (window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) || compose;
+const enhancer = composeEnhancers(
+  applyMiddleware(...middleware)
+);
+
 const store = createStore(
   myReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  enhancer
 );
 
 ReactDOM.render(
