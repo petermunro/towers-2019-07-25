@@ -7,6 +7,7 @@ import { createStore, compose, applyMiddleware } from "redux";
 import { Provider } from 'react-redux';
 import { INCREASE, DECREASE, SET_HEIGHT, DELETE_COLUMN, ADD_COLUMN } from "./redux/actions";
 import timingMiddleware from './redux/timingMiddleware';
+import dispatchAFunction from './redux/dispatchAFunction';
 
 const columnHeightLimit = 12;
 const defaultHeight = 7;
@@ -81,6 +82,7 @@ const myReducer = (state = initialState, action) => {
 };
 
 const middleware = [
+  dispatchAFunction,
   timingMiddleware,
 ];
 

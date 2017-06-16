@@ -30,7 +30,7 @@ class App extends Component {
   }
 
   handleHigher = colId => {
-    this.props.higherProp(colId);
+    this.props.higherAgainProp(colId);
   }
 
   handleLower = colId => {
@@ -70,6 +70,12 @@ const mapDispatchToProps = dispatch => {
     },
     higherProp: function(colId) {
       dispatch(higher(colId));
+    },
+    higherAgainProp: function(colId) {
+      dispatch( (dispatch, getState) => {
+        dispatch(higher(colId));
+        dispatch(higher(colId));
+      });
     },
     lowerProp: function(colId) {
       dispatch(lower(colId));
