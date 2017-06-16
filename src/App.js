@@ -1,38 +1,87 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import './App.css';
 import Column from './Column';
-import { INCREASE, DECREASE, SET_HEIGHT } from './redux/actionTypes';
+import { addColumn, deleteColumn, setHeight, higher, lower } from './redux/actions';
 
 
 class App extends Component {
 
   render() {
+    let columnComponents = this.props.columns.map(column =>
+      <Column
+        onHigher={this.handleHigher}
+        onLower={this.handleLower}
+        length={column.height}
+        onSetHeight={this.handleSetHeight}
+        colId={column.colId}
+        key={column.colId}
+        onDeleteColumn={this.handleDeleteColumn}
+      />
+    );
     return (
       <div className="App">
-        <Column
-          onAdd={this.handleAdd}
-          onDelete={this.handleDelete}
-          length={this.props.store.getState()[0]}
-          onSetHeight={this.handleSetHeight}
-        />
+        <div>
+          <button onClick={this.handleAddColumn} className="add">Add Column</button>
+        </div>
+        { columnComponents }
       </div>
     );
   }
 
-  handleAdd = () => {
-    console.log(`add`);
-    this.props.store.dispatch({ type: INCREASE });
+  handleHigher = colId => {
+    this.props.higherProp(colId);
   }
 
-  handleDelete = () => {
-    console.log(`delete`);
-    this.props.store.dispatch({ type: DECREASE });
+  handleLower = colId => {
+    this.props.lowerProp(colId);
   }
 
-  handleSetHeight = newHeight => {
-    this.props.store.dispatch({type: SET_HEIGHT, newHeight});
+  handleSetHeight = (newHeight, colId) => {
+    this.props.setHeightProp(newHeight, colId);
+  }
+
+  handleDeleteColumn = colId => {
+    this.props.deleteColumnProp(colId);
+  }
+
+  handleAddColumn = () => {
+    this.props.addColumnProp();
   }
 
 }
 
-export default App;
+const mapStateToProps = state => {
+  return {
+    columns: state.columns,
+  };
+}
+
+const mapDispatchToProps = dispatch => {
+  return {
+    addColumnProp: function() {
+      dispatch(addColumn());
+    },
+    deleteColumnProp: function(colId) {
+      dispatch(deleteColumn(colId));
+    },
+    setHeightProp: function(newHeight, colId) {
+      dispatch(setHeight(newHeight, colId));
+    },
+    higherProp: function(colId) {
+      dispatch(higher(colId));
+    },
+    lowerProp: function(colId) {
+      dispatch(lower(colId));
+    },
+
+  };
+}
+
+const ReduxApp = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(App);
+
+
+export default ReduxApp;

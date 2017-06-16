@@ -23,25 +23,31 @@ class Column extends Component {
           <input type="number" className="set-height" onChange={this.handleHeightChange} />
           <button onClick={this.handleSet}>Set</button>
         </div>
+        <button onClick={this.handleDeleteColumn} className="delete">Delete Column</button>
       </div>
     );
   }
 
   handleAdd = () => {
-    this.props.onAdd();
+    this.props.onHigher(this.props.colId);
   }
 
   handleDelete = () => {
-    this.props.onDelete();
+    this.props.onLower(this.props.colId);
   }
 
   handleSet = () => {
-    this.props.onSetHeight && this.props.onSetHeight(this.state.proposedHeight);
+    this.props.onSetHeight && this.props.onSetHeight(this.state.proposedHeight, this.props.colId);
   }
 
   handleHeightChange = event => {
     this.setState({proposedHeight: +event.target.value});
   }
+
+  handleDeleteColumn = () => {
+    this.props.onDeleteColumn && this.props.onDeleteColumn(this.props.colId);
+  }
+
 }
 
 Column.propTypes = {
