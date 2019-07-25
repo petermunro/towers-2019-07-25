@@ -1,18 +1,15 @@
-import React, { Component } from 'react';
-import './App.css';
-import Column from './Column';
-import { INCREASE, DECREASE } from './redux/actionTypes';
-
+import React, { Component } from "react";
+import "./App.css";
+import Column from "./Column";
 
 class App extends Component {
-
   render() {
     return (
       <div className="App">
         <Column
           onAdd={this.handleAdd}
           onDelete={this.handleDelete}
-          length={this.props.store.getState()[0]}
+          length={this.props.height}
           onSetHeight={this.handleSetHeight}
         />
       </div>
@@ -20,15 +17,18 @@ class App extends Component {
   }
 
   handleAdd = () => {
-    console.log(`add`);
-    this.props.store.dispatch({ type: INCREASE });
-  }
+    console.log(`raiseIt`);
+    this.props.raiseIt();
+  };
 
   handleDelete = () => {
-    console.log(`delete`);
-    this.props.store.dispatch({ type: DECREASE });
-  }
+    console.log(`lowerIt`);
+    this.props.lowerIt();
+  };
 
+  handleSetHeight = newHeight => {
+    this.props.setHeight(newHeight);
+  };
 }
 
 export default App;
